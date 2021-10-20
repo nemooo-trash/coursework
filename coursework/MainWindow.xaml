@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="1400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Height="650" Width="1400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid Height="60" VerticalAlignment="Top" Background="#FF9C27B0">
             <TextBlock Text="Богушевич Антон Максимович ЭБИ-211" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Champagne &amp; Limousines" />
@@ -22,6 +22,11 @@
                 </dragablz:TabablzControl.InterTabController>
                 <TabItem Header="Добавление студента">
                     <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Top" >
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Количество записей: "/>
+                            <TextBlock x:Name="textBlock1" Text=""/>
+                        </StackPanel>
                         <TextBlock Text="Фамилия"/>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <TextBox x:Name="textBox1" Width="161" Background="LightGray" Cursor="IBeam" TextChanged="TextChecker1"/>
@@ -71,7 +76,6 @@
                                 <TextBlock FontSize="10">Добавить студента</TextBlock>
                                 <materialDesign:PackIcon  HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Import"/>
                             </StackPanel>
-
                         </Button>
                     </StackPanel>
                 </TabItem>

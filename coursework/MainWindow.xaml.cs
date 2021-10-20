@@ -39,9 +39,21 @@ namespace coursework
                 persons[i] = new Person_for_tables() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
             }
             gridStudents.ItemsSource = persons;
+            textBlock1.Text = dt_user.Rows.Count.ToString();
         }
         void Load_number2(object sender, RoutedEventArgs e) //Вывод всех
         {
+            sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
+            connect.conOpen();
+            dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
+            connect.conClose();
+            Person_for_tables[] persons = new Person_for_tables[dt_user.Rows.Count];
+            for (int i = 0; i < dt_user.Rows.Count; i++)
+            {
+                persons[i] = new Person_for_tables() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
+            }
+            gridStudents.ItemsSource = persons;
+            textBlock1.Text = dt_user.Rows.Count.ToString();
             gridStudents.Height = 410;
             gridStudents.MaxHeight = 410;
         }
@@ -124,8 +136,8 @@ namespace coursework
                         Note = textBox6.Text
                     };
                     int check = connect.insert_command_student(student);
-                    connect.conClose();
-
+                    Load_number2(gridStudents, e);
+                    Load_number3(gridStudents1, e);
                 }
             }
         }
@@ -157,13 +169,17 @@ namespace coursework
             }
             gridStudents.ItemsSource = persons;
             Load_number3(gridStudents1, e);
-
+            connect.conOpen();
+            dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
+            connect.conClose();
+            textBlock1.Text = dt_user.Rows.Count.ToString();
+            Load_number3(gridStudents1, e);
+            Load_number2(gridStudents, e);
         }
 
         void OnClick4(object sender, RoutedEventArgs e) // edit
         {
             var index = gridStudents.SelectedIndex;
-
             Person_for_tables newPerson = new Person_for_tables();
             Person_for_tables obj = gridStudents.SelectedItem as Person_for_tables;
             string Full_name = obj.FIO;
@@ -173,13 +189,11 @@ namespace coursework
             string score = obj.score;
             string osn = obj.osnova;
             string prim = obj.prim;
-
             sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
             connect = new sqlCon.SqlConnect();
             connect.conOpen();
-
-            DB_ID[] ids = new DB_ID[dt_user.Rows.Count];
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
+            DB_ID[] ids = new DB_ID[dt_user.Rows.Count];
 
             for (int i = 0; i < dt_user.Rows.Count; i++)
             {
@@ -226,6 +240,7 @@ namespace coursework
             int check = connect.insert_command_student(student);
             connect.conClose();
             Load_number3(gridStudents1, e);
+            Load_number2(gridStudents, e);
         }
             void TextChecker1(object sender, RoutedEventArgs e)
             {
