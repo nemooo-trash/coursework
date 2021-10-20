@@ -18,16 +18,6 @@ using System.Collections.ObjectModel;
 
 namespace coursework
 {
-    public class Person
-    {
-        public string FIO { get; set; }
-        public int st_number { get; set; }
-        public string gender_table { get; set; }
-        public string date { get; set; }
-        public string score { get; set; }
-        public string osnova { get; set; }
-        public string prim { get; set; }
-    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -43,10 +33,10 @@ namespace coursework
             connect.conOpen();
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
             connect.conClose();
-            Person[] persons = new Person[dt_user.Rows.Count];
+            Person_for_tables[] persons = new Person_for_tables[dt_user.Rows.Count];
             for (int i = 0; i < dt_user.Rows.Count; i++)
             {
-                persons[i] = new Person() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
+                persons[i] = new Person_for_tables() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
             }
             gridStudents.ItemsSource = persons;
         }
@@ -61,10 +51,10 @@ namespace coursework
             connect.conOpen();
             DataTable dt_user1 = connect.select_query("SELECT * FROM[dbo].[student] AS st INNER JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) INNER JOIN[dbo].[lear] ler ON(st.base_learn = ler.id) where ler.type = 'платная' order by st.birthday DESC"); // получаем данные из таблицы                                                                                                                                                                                                                                  // получаем данные из таблицы
             connect.conClose();
-            Person[] persons = new Person[dt_user1.Rows.Count];
+            Person_for_tables[] persons = new Person_for_tables[dt_user1.Rows.Count];
             for (int i = 0; i < dt_user1.Rows.Count; i++)
             {
-                persons[i] = new Person() { FIO = dt_user1.Rows[i][2] + " " + dt_user1.Rows[i][1] + " " + dt_user1.Rows[i][3], st_number = Convert.ToInt32(dt_user1.Rows[i][7]), gender_table = Convert.ToString(dt_user1.Rows[i][11]), date = Convert.ToString(dt_user1.Rows[i][4]), score = Convert.ToString(dt_user1.Rows[i][8]), osnova = Convert.ToString(dt_user1.Rows[i][13]), prim = Convert.ToString(dt_user1.Rows[i][9]) };
+                persons[i] = new Person_for_tables() { FIO = dt_user1.Rows[i][2] + " " + dt_user1.Rows[i][1] + " " + dt_user1.Rows[i][3], st_number = Convert.ToInt32(dt_user1.Rows[i][7]), gender_table = Convert.ToString(dt_user1.Rows[i][11]), date = Convert.ToString(dt_user1.Rows[i][4]), score = Convert.ToString(dt_user1.Rows[i][8]), osnova = Convert.ToString(dt_user1.Rows[i][13]), prim = Convert.ToString(dt_user1.Rows[i][9]) };
             }
             gridStudents1.ItemsSource = persons;
         }
@@ -160,10 +150,10 @@ namespace coursework
             connect.delete_command_studentById(ids[index].id);
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
             connect.conClose();
-            Person[] persons = new Person[dt_user.Rows.Count];
+            Person_for_tables[] persons = new Person_for_tables[dt_user.Rows.Count];
             for (int i = 0; i < dt_user.Rows.Count; i++)
             {
-                persons[i] = new Person() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
+                persons[i] = new Person_for_tables() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
             }
             gridStudents.ItemsSource = persons;
             Load_number3(gridStudents1, e);
@@ -174,8 +164,8 @@ namespace coursework
         {
             var index = gridStudents.SelectedIndex;
 
-            Person newPerson = new Person();
-            Person obj = gridStudents.SelectedItem as Person;
+            Person_for_tables newPerson = new Person_for_tables();
+            Person_for_tables obj = gridStudents.SelectedItem as Person_for_tables;
             string Full_name = obj.FIO;
             int st_numb = obj.st_number;
             string gender = obj.gender_table;
