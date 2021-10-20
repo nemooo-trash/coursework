@@ -147,6 +147,10 @@ namespace coursework
         }
         void OnClick3(object sender, RoutedEventArgs e) // delete
         {
+            sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
+            connect.conOpen();
+            dt_user = connect.select_query("SELECT * FROM[dbo].[student]  WHERE stud_number = '" + textBox4.Text + "'"); // получаем данные из таблицы
+            connect.conClose();
             DB_ID[] ids = new DB_ID[dt_user.Rows.Count];
             for (int i = 0; i < dt_user.Rows.Count; i++)
             {
@@ -157,7 +161,6 @@ namespace coursework
             }
             var index = gridStudents.SelectedIndex;
             gridStudents.ClearValue(ItemsControl.ItemsSourceProperty);
-            sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
             connect.conOpen();
             connect.delete_command_studentById(ids[index].id);
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
