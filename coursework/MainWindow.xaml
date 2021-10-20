@@ -1,0 +1,133 @@
+﻿<Window x:Class="coursework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:coursework"
+        mc:Ignorable="d"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Height="600" Width="1400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid Height="60" VerticalAlignment="Top" Background="#FF9C27B0">
+            <TextBlock Text="Богушевич Антон Максимович ЭБИ-211" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Champagne &amp; Limousines" />
+            <Button Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Black" BorderBrush="{x:Null}" Click="OnClick1" Cursor="Hand">
+                <materialDesign:PackIcon Kind="Power"/>
+            </Button>
+        </Grid>
+        <Grid Margin="0 60 0 0" >
+            <dragablz:TabablzControl>
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController/>
+                </dragablz:TabablzControl.InterTabController>
+                <TabItem Header="Добавление студента">
+                    <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Top" >
+                        <TextBlock Text="Фамилия"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="textBox1" Width="161" Background="LightGray" Cursor="IBeam" TextChanged="TextChecker1"/>
+                        </StackPanel>
+                        <TextBlock Text="Имя"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="textBox2" Width="161" Background="LightGray" TextChanged="TextChecker2"/>
+                        </StackPanel>
+                        <TextBlock Text="Отчество"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="textBox3" Width="161" Background="LightGray" TextChanged="TextChecker3"/>
+                        </StackPanel>
+                        <TextBlock Text="Дата рождения"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <DatePicker x:Name="dateTime1" Width="161" Foreground="Black" BorderBrush="Purple" Background="#FFF90101" Margin="0,0,-3,0" >
+                            </DatePicker>
+                        </StackPanel>
+                        <TextBlock Text="Пол"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <ComboBox x:Name="gender" Width="161" Background="LightGray" Foreground="Purple" SelectedIndex="0" OpacityMask="Black">
+                                <ComboBoxItem Content="мужской" Opacity="100" Background="White"/>
+                                <ComboBoxItem Content="женский" Opacity="100" Background="White"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <TextBlock Text="Номер студенческого билета"/>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                            <TextBox x:Name="textBox4" Width="161" Background="LightGray" TextChanged="TextChecker4"/>
+                        </StackPanel>
+                        <TextBlock Text="Основа обучения"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <ComboBox x:Name="base_learn" Width="161" Background="LightGray" Foreground="Purple" SelectedIndex="0" OpacityMask="Black">
+                                <ComboBoxItem Content="бюджетная" Opacity="100" Background="White"/>
+                                <ComboBoxItem Content="платная" Opacity="100" Background="White"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <TextBlock Text="Количество задолжностей"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="textBox5" Width="161" Background="LightGray"  TextChanged="TextChecker5"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Примечание"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="textBox6" Width="161" Background="LightGray"/>
+                        </StackPanel>
+                        <Button  HorizontalAlignment="Center" Width="161" VerticalAlignment="Center" Foreground="White" BorderBrush="{x:Null}" Click="OnClick2" Cursor="Hand">
+                            <StackPanel  VerticalAlignment="Center">
+                                <TextBlock FontSize="10">Добавить студента</TextBlock>
+                                <materialDesign:PackIcon  HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Import"/>
+                            </StackPanel>
+
+                        </Button>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Список студентов">
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
+                        <DataGrid  x:Name="gridStudents" ItemsSource="{Binding Person}"  AutoGenerateColumns="False"  Height="410" SelectionMode="Single" SelectionUnit="FullRow" CanUserReorderColumns="True" SelectedItem="{Binding Person}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" />
+                                <DataGridTextColumn Header="№ студенческого билета" Binding="{Binding st_number}" />
+                                <DataGridTextColumn Header="Пол" Binding="{Binding gender_table}" />
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding date}" />
+                                <DataGridTextColumn Header="Задолжности" Binding="{Binding score}" />
+                                <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
+                                <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
+
+                                <DataGridTemplateColumn Header="Удалить" Width="85">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="OnClick3">
+                                                <materialDesign:PackIcon Kind="Delete" Foreground="White" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Обновить" Width="95">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="OnClick4">
+                                                <materialDesign:PackIcon Kind="Update" Foreground="White" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Отбор по параметрам">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10">
+                        <DataGrid x:Name="gridStudents1" AutoGenerateColumns="False" Loaded="Load_number3">
+                            
+                            <DataGrid.Columns>
+    
+                                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" />
+                                <DataGridTextColumn Header="№ студенческого билета" Binding="{Binding st_number}" />
+                                <DataGridTextColumn Header="Пол" Binding="{Binding gender_table}" />
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding date}" />
+                                <DataGridTextColumn Header="Задолжности" Binding="{Binding score}" />
+                                <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
+                                <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+
+            </dragablz:TabablzControl>
+        </Grid>
+    </Grid>
+</Window>
