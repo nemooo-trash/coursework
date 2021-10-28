@@ -35,6 +35,24 @@ namespace coursework.sqlCon
             sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
             return dataTable;
         }
+
+        public DataTable getpassword(string query,string login, string password)
+        {
+            DataTable dataTable = new DataTable("dataBase");
+            SqlCommand sqlCommand = Con.CreateCommand();                    // создаём команду
+
+            sqlCommand.CommandText = query;
+            sqlCommand.Parameters.Add("@Login", SqlDbType.NVarChar, 20);
+            sqlCommand.Parameters.Add("@Password", SqlDbType.NVarChar, 200);
+
+            sqlCommand.Parameters["@Login"].Value = login;
+            sqlCommand.Parameters["@Password"].Value = password;
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
+            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
+            return dataTable;
+        }
         public int insert_command_student(coursework.Student[] student)
         {
             string key = student[0].Name;
@@ -67,6 +85,43 @@ namespace coursework.sqlCon
             cmd.ExecuteNonQuery();
             return 0;
         }
+
+
+
+        public int insert_command_user(string login, string password)
+        {
+            string stmt = "INSERT INTO [dbo].[user] ([login],[password],[role]) VALUES (@Login , @Password, @Role)";
+            SqlCommand cmd = new SqlCommand(stmt, Con);
+            cmd.Parameters.Add("@Login", SqlDbType.NVarChar, 20);
+            cmd.Parameters.Add("@Password", SqlDbType.NVarChar, 200);
+            cmd.Parameters.Add("@Role", SqlDbType.NVarChar, 10);
+
+            cmd.Parameters["@Login"].Value = login;
+            cmd.Parameters["@Password"].Value = password;
+            cmd.Parameters["@Role"].Value = "user";
+            cmd.ExecuteNonQuery();
+            return 0;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public void delete_command_studentById(int id)
         {
             string stmt = "DELETE FROM [dbo].[student] WHERE id = " + id;

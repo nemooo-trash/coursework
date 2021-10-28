@@ -10,7 +10,7 @@
         Height="650" Width="1400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid Height="60" VerticalAlignment="Top" Background="#FF9C27B0">
-            <TextBlock Text="Богушевич Антон Максимович ЭБИ-211" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Champagne &amp; Limousines" />
+            <TextBlock x:Name ="name_block" Text="Богушевич Антон Максимович ЭБИ-211" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Champagne &amp; Limousines" />
             <Button Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Black" BorderBrush="{x:Null}" Click="OnClick1" Cursor="Hand">
                 <materialDesign:PackIcon Kind="Power"/>
             </Button>
@@ -20,8 +20,61 @@
                 <dragablz:TabablzControl.InterTabController>
                     <dragablz:InterTabController/>
                 </dragablz:TabablzControl.InterTabController>
-                <TabItem Header="Добавление студента">
-                    <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Top" >
+                
+                <TabItem Header="Список студентов">
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
+                        <DataGrid  x:Name="gridStudents" ItemsSource="{Binding Person}"  AutoGenerateColumns="False"  Height="410" SelectionMode="Single" SelectionUnit="FullRow" CanUserReorderColumns="True" SelectedItem="{Binding Person}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" />
+                                <DataGridTextColumn Header="№ студенческого билета" Binding="{Binding st_number}" />
+                                <DataGridTextColumn Header="Пол" Binding="{Binding gender_table}" />
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding date}" />
+                                <DataGridTextColumn Header="Задолжности" Binding="{Binding score}" />
+                                <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
+                                <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
+
+                                <DataGridTemplateColumn Header="Удалить" Width="85">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="OnClick3">
+                                                <materialDesign:PackIcon Kind="Delete" Foreground="White" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Обновить" Width="95">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="OnClick4">
+                                                <materialDesign:PackIcon Kind="Update" Foreground="White" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Отбор по параметрам">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10">
+                        <DataGrid x:Name="gridStudents1" AutoGenerateColumns="False" Loaded="Load_number3">
+                            
+                            <DataGrid.Columns>
+    
+                                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" />
+                                <DataGridTextColumn Header="№ студенческого билета" Binding="{Binding st_number}" />
+                                <DataGridTextColumn Header="Пол" Binding="{Binding gender_table}" />
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding date}" />
+                                <DataGridTextColumn Header="Задолжности" Binding="{Binding score}" />
+                                <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
+                                <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem x:Name="name" Header="Добавление студента">
+                    <StackPanel x:Name="addStudent" HorizontalAlignment="Center" VerticalAlignment="Top" >
 
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <TextBlock Text="Количество записей: "/>
@@ -79,58 +132,8 @@
                         </Button>
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="Список студентов">
-                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
-                        <DataGrid  x:Name="gridStudents" ItemsSource="{Binding Person}"  AutoGenerateColumns="False"  Height="410" SelectionMode="Single" SelectionUnit="FullRow" CanUserReorderColumns="True" SelectedItem="{Binding Person}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" />
-                                <DataGridTextColumn Header="№ студенческого билета" Binding="{Binding st_number}" />
-                                <DataGridTextColumn Header="Пол" Binding="{Binding gender_table}" />
-                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding date}" />
-                                <DataGridTextColumn Header="Задолжности" Binding="{Binding score}" />
-                                <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
-                                <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
-
-                                <DataGridTemplateColumn Header="Удалить" Width="85">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Click="OnClick3">
-                                                <materialDesign:PackIcon Kind="Delete" Foreground="White" HorizontalAlignment="Center"/>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Обновить" Width="95">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Click="OnClick4">
-                                                <materialDesign:PackIcon Kind="Update" Foreground="White" HorizontalAlignment="Center"/>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </TabItem>
-                <TabItem Header="Отбор по параметрам">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10">
-                        <DataGrid x:Name="gridStudents1" AutoGenerateColumns="False" Loaded="Load_number3">
-                            
-                            <DataGrid.Columns>
-    
-                                <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" />
-                                <DataGridTextColumn Header="№ студенческого билета" Binding="{Binding st_number}" />
-                                <DataGridTextColumn Header="Пол" Binding="{Binding gender_table}" />
-                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding date}" />
-                                <DataGridTextColumn Header="Задолжности" Binding="{Binding score}" />
-                                <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
-                                <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </TabItem>
-
+                <Label x:Name="UserName" Margin="0 0 0 0" HorizontalAlignment="Right"/>
+                <Label x:Name="UserRole"  HorizontalAlignment="Right"/>
             </dragablz:TabablzControl>
         </Grid>
     </Grid>

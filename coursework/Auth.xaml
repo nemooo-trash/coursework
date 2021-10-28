@@ -1,0 +1,66 @@
+﻿<Window x:Class="coursework.Auth"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:coursework"
+        mc:Ignorable="d"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Height="300" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid Height="60" VerticalAlignment="Top" Background="#FF9C27B0">
+            <TextBlock Text="Богушевич Антон Максимович ЭБИ-211" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Champagne &amp; Limousines" />
+            <Button Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Close" Foreground="Black" BorderBrush="{x:Null}" Cursor="Hand" >
+                <materialDesign:PackIcon Kind="Power"/>
+            </Button>
+        </Grid>
+        <Grid Margin="0 60 0 0" >
+            <dragablz:TabablzControl>
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController/>
+            </dragablz:TabablzControl.InterTabController>
+
+            <TabItem Header="Авторизация">
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
+                        <TextBlock Text="Login"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="login_box" Width="161" Background="LightGray" Cursor="IBeam" />
+                        </StackPanel>
+
+                        <TextBlock Text="Password" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <PasswordBox  x:Name="password_box" PasswordChar="*" Width="161" Background="LightGray"/>
+                        </StackPanel>
+                        <Button  HorizontalAlignment="Center" Width="161" VerticalAlignment="Center" Foreground="White" BorderBrush="{x:Null}" Cursor="Hand" Click="auth_reg">
+                            <StackPanel  VerticalAlignment="Center">
+                                <TextBlock FontSize="10">Авторизоваться</TextBlock>
+                                <materialDesign:PackIcon  HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Import"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+            </TabItem>
+            <TabItem Header="Регистрация">
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
+                        <TextBlock Text="Login"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="loginBoxReg" Width="161" Background="LightGray" />
+                        </StackPanel>
+
+                        <TextBlock Text="Password" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <PasswordBox  x:Name="passwordBoxReg" PasswordChar="*" Width="161" Background="LightGray"/>
+                        </StackPanel>
+                        <Button  HorizontalAlignment="Center" Width="161" VerticalAlignment="Center" Foreground="White" BorderBrush="{x:Null}" Click="Register" Cursor="Hand">
+                            <StackPanel  VerticalAlignment="Center">
+                                <TextBlock FontSize="10">Зарегистрироваться</TextBlock>
+                                <materialDesign:PackIcon  HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Import"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </TabItem>
+
+            </dragablz:TabablzControl>
+        </Grid>
+    </Grid>
+</Window>

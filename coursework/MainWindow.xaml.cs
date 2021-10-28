@@ -25,10 +25,13 @@ namespace coursework
     {
         public Student[] student = new Student[1];
         DataTable dt_user = new DataTable();
-        public MainWindow()
+        public MainWindow(User[] user)
         {
             InitializeComponent();
+            
             dateTime1.DisplayDateEnd = DateTime.Now;
+            name_block.Text += " Логин пользователя - " + user[0].login;
+            name_block.Text += ", Ваша роль - " + user[0].role;
             sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
             connect.conOpen();
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
@@ -149,7 +152,7 @@ namespace coursework
         {
             sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
             connect.conOpen();
-            dt_user = connect.select_query("SELECT * FROM[dbo].[student]  WHERE stud_number = '" + textBox4.Text + "'"); // получаем данные из таблицы
+            dt_user = connect.select_query("SELECT * FROM[dbo].[student]"); // получаем данные из таблицы
             connect.conClose();
             DB_ID[] ids = new DB_ID[dt_user.Rows.Count];
             for (int i = 0; i < dt_user.Rows.Count; i++)
