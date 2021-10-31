@@ -25,23 +25,58 @@ namespace coursework
     {
         public Student[] student = new Student[1];
         DataTable dt_user = new DataTable();
+        DataTable dt_user_user = new DataTable();
+        public string user_login = "";
+        public string user_role = "";
         public MainWindow(User[] user)
         {
             InitializeComponent();
-            
+            user_login = user[0].login;
+            user_role = user[0].role;
+            if (user[0].role == "guest") {
+                
+                Tab_Mom.Items.Remove(name);
+                Tab_Mom.Items.Remove(otbor_name);
+                Tab_Mom.Items.Remove(full_users);
+                gridStudents.IsReadOnly = true;
+                btn_del.Visibility = Visibility.Hidden;
+                btn_res.Visibility = Visibility.Hidden;
+            }
+            if (user[0].role == "user") {
+                Tab_Mom.Items.Remove(full_users);
+                gridStudents.IsReadOnly = true;
+                btn_del.Visibility = Visibility.Hidden;
+                btn_res.Visibility = Visibility.Hidden;
+                gridStudents1.IsReadOnly = true;
+            }
+            gridStudents.CanUserSortColumns = false;
+            gridStudents1.CanUserSortColumns = false;
+            gridUsers.CanUserSortColumns = false;
             dateTime1.DisplayDateEnd = DateTime.Now;
             name_block.Text += " Логин пользователя - " + user[0].login;
             name_block.Text += ", Ваша роль - " + user[0].role;
             sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
             connect.conOpen();
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
+            dt_user_user = connect.select_query("SELECT * FROM[dbo].[user]"); // получаем данные из таблицы
             connect.conClose();
             Person_for_tables[] persons = new Person_for_tables[dt_user.Rows.Count];
+            Users_for_tables[] users = new Users_for_tables[dt_user_user.Rows.Count - 1];
             for (int i = 0; i < dt_user.Rows.Count; i++)
             {
                 persons[i] = new Person_for_tables() { FIO = dt_user.Rows[i][2] + " " + dt_user.Rows[i][1] + " " + dt_user.Rows[i][3], st_number = Convert.ToInt32(dt_user.Rows[i][7]), gender_table = Convert.ToString(dt_user.Rows[i][11]), date = Convert.ToString(dt_user.Rows[i][4]), score = Convert.ToString(dt_user.Rows[i][8]), osnova = Convert.ToString(dt_user.Rows[i][13]), prim = Convert.ToString(dt_user.Rows[i][9]) };
             }
+            int new_index = 0;
+            for (int i = 0; i < dt_user_user.Rows.Count; i++)
+            {
+                if (Convert.ToString(dt_user_user.Rows[i][1]) != user_login)
+                {
+                    users[new_index] = new Users_for_tables() { Login = Convert.ToString(dt_user_user.Rows[i][1]), role = Convert.ToString(dt_user_user.Rows[i][3]), password = "" };
+                    new_index += 1;
+                }
+            }
             gridStudents.ItemsSource = persons;
+            gridUsers.ItemsSource = users;
             textBlock1.Text = dt_user.Rows.Count.ToString();
         }
         void Load_number2(object sender, RoutedEventArgs e) //Вывод всех
@@ -75,6 +110,8 @@ namespace coursework
         }
         void OnClick1(object sender, RoutedEventArgs e)
         {
+            var Auth = new Auth();
+            Auth.Show();
             this.Close();
         }
         void OnClick2(object sender, RoutedEventArgs e)
@@ -248,6 +285,62 @@ namespace coursework
             Load_number3(gridStudents1, e);
             Load_number2(gridStudents, e);
         }
+
+
+
+        public class DB_ID_Users
+        {
+            public int id;
+        }
+
+        void delete_users(object sender, RoutedEventArgs e) {       //удаление пользователей 
+            sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
+            connect.conOpen();
+            dt_user_user = connect.select_query("SELECT * FROM[dbo].[user]"); // получаем данные из таблицы
+            connect.conClose();
+            DB_ID_Users[] ids_user = new DB_ID_Users[dt_user_user.Rows.Count - 1];
+            int new_index = 0;
+            for (int i = 0; i < dt_user_user.Rows.Count; i++)
+            {
+                if (Convert.ToString(dt_user_user.Rows[i][1]) != user_login)
+                {
+                    ids_user[new_index] = new DB_ID_Users
+                    {
+                        id = Convert.ToInt32(dt_user_user.Rows[i][0])
+                    };
+                    new_index += 1;
+                }
+            }
+            var index = gridUsers.SelectedIndex;
+            gridUsers.ClearValue(ItemsControl.ItemsSourceProperty);
+            connect.conOpen();
+            connect.delete_command_userById(ids_user[index].id);
+            dt_user_user = connect.select_query("SELECT * FROM[dbo].[user]"); // получаем данные из таблицы
+            connect.conClose();
+            Users_for_tables[] users = new Users_for_tables[dt_user_user.Rows.Count - 1];
+            new_index = 0;
+            for (int i = 0; i < dt_user_user.Rows.Count; i++)
+            {
+                if (Convert.ToString(dt_user_user.Rows[i][1]) != user_login)
+                {
+                    users[new_index] = new Users_for_tables() { Login = Convert.ToString(dt_user_user.Rows[i][1]), role = Convert.ToString(dt_user_user.Rows[i][3]), password = "" };
+                    new_index += 1;
+                }
+            }
+            gridUsers.ItemsSource = users;
+        } 
+        void update_users(object sender, RoutedEventArgs e) {       //редактирование пользователей
+
+        }
+
+
+
+
+
+
+
+
+
             void TextChecker1(object sender, RoutedEventArgs e)
             {
                 textBox1.Background = Brushes.LightGray; //Color.FromRgb(237, 105, 105);

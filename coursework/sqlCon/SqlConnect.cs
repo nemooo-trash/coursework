@@ -98,33 +98,21 @@ namespace coursework.sqlCon
 
             cmd.Parameters["@Login"].Value = login;
             cmd.Parameters["@Password"].Value = password;
-            cmd.Parameters["@Role"].Value = "user";
+            cmd.Parameters["@Role"].Value = "guest";
             cmd.ExecuteNonQuery();
             return 0;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public void delete_command_studentById(int id)
         {
             string stmt = "DELETE FROM [dbo].[student] WHERE id = " + id;
+            SqlCommand cmd = new SqlCommand(stmt, Con);
+            cmd.ExecuteNonQuery();
+        }
+
+        public void delete_command_userById(int id)
+        {
+            string stmt = "DELETE FROM [dbo].[user] WHERE id = " + id;
             SqlCommand cmd = new SqlCommand(stmt, Con);
             cmd.ExecuteNonQuery();
         }

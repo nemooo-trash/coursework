@@ -16,7 +16,7 @@
             </Button>
         </Grid>
         <Grid Margin="0 60 0 0" >
-            <dragablz:TabablzControl>
+            <dragablz:TabablzControl x:Name="Tab_Mom">
                 <dragablz:TabablzControl.InterTabController>
                     <dragablz:InterTabController/>
                 </dragablz:TabablzControl.InterTabController>
@@ -33,7 +33,7 @@
                                 <DataGridTextColumn Header="Основа обучения" Binding="{Binding osnova}" />
                                 <DataGridTextColumn Header="Примечание" Binding="{Binding prim}" />
 
-                                <DataGridTemplateColumn Header="Удалить" Width="85">
+                                <DataGridTemplateColumn x:Name="btn_del" Header="Удалить" Width="85">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Click="OnClick3">
@@ -42,7 +42,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Обновить" Width="95">
+                                <DataGridTemplateColumn x:Name="btn_res" Header="Обновить" Width="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Click="OnClick4">
@@ -55,8 +55,8 @@
                         </DataGrid>
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="Отбор по параметрам">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10">
+                <TabItem x:Name="otbor_name" Header="Отбор по параметрам">
+                    <StackPanel x:Name="otbor" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10">
                         <DataGrid x:Name="gridStudents1" AutoGenerateColumns="False" Loaded="Load_number3">
                             
                             <DataGrid.Columns>
@@ -132,8 +132,43 @@
                         </Button>
                     </StackPanel>
                 </TabItem>
-                <Label x:Name="UserName" Margin="0 0 0 0" HorizontalAlignment="Right"/>
-                <Label x:Name="UserRole"  HorizontalAlignment="Right"/>
+
+                <TabItem x:Name="full_users" Header="Список пользователей">
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
+                        <DataGrid  x:Name="gridUsers" ItemsSource="{Binding Users}"  AutoGenerateColumns="False"  Height="410" SelectionMode="Single" SelectionUnit="FullRow" CanUserReorderColumns="True" SelectedItem="{Binding Users}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Login" Binding="{Binding Login}" />
+                                <DataGridTextColumn Header="Role" Binding="{Binding role}" />
+                                <DataGridTextColumn Header="New password" Binding="{Binding password}" />
+
+                                <DataGridTemplateColumn x:Name="btn_delete_user" Header="Удалить" Width="85">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="delete_users">
+                                                <materialDesign:PackIcon Kind="Delete" Foreground="White" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn x:Name="btn_res_user" Header="Обновить" Width="95">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="update_users">
+                                                <materialDesign:PackIcon Kind="Update" Foreground="White" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+
+
+
+
+
+
             </dragablz:TabablzControl>
         </Grid>
     </Grid>
