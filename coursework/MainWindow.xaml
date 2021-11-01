@@ -153,7 +153,7 @@
                                 <DataGridTemplateColumn x:Name="btn_res_user" Header="Обновить" Width="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="update_users">
+                                            <Button x:Name="update_users" Click="update_users">
                                                 <materialDesign:PackIcon Kind="Update" Foreground="White" HorizontalAlignment="Center"/>
                                             </Button>
                                         </DataTemplate>

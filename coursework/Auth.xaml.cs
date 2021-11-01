@@ -108,8 +108,9 @@ namespace coursework
                 else {
                     getHash.GetHash get = new getHash.GetHash();
                     input = get.GetHashString(input);
+                    string role = "guest";
                     connect.conOpen();
-                    connect.insert_command_user(login, input);
+                    connect.insert_command_user(login, input, role);
                     connect.conClose();
                     MessageBox.Show("Пользователь успешно зарегистрирован! \n Теперь вам необходимо авторизоваться.");
                 }

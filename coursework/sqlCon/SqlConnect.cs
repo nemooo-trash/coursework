@@ -88,7 +88,7 @@ namespace coursework.sqlCon
 
 
 
-        public int insert_command_user(string login, string password)
+        public int insert_command_user(string login, string password, string role)
         {
             string stmt = "INSERT INTO [dbo].[user] ([login],[password],[role]) VALUES (@Login , @Password, @Role)";
             SqlCommand cmd = new SqlCommand(stmt, Con);
@@ -98,7 +98,7 @@ namespace coursework.sqlCon
 
             cmd.Parameters["@Login"].Value = login;
             cmd.Parameters["@Password"].Value = password;
-            cmd.Parameters["@Role"].Value = "guest";
+            cmd.Parameters["@Role"].Value = role;
             cmd.ExecuteNonQuery();
             return 0;
         }

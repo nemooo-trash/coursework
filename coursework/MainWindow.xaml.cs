@@ -285,9 +285,6 @@ namespace coursework
             Load_number3(gridStudents1, e);
             Load_number2(gridStudents, e);
         }
-
-
-
         public class DB_ID_Users
         {
             public int id;
@@ -331,6 +328,48 @@ namespace coursework
         } 
         void update_users(object sender, RoutedEventArgs e) {       //редактирование пользователей
 
+            var index = gridUsers.SelectedIndex;
+            Users_for_tables obj = gridUsers.SelectedItem as Users_for_tables;
+            string login = obj.Login;
+            string password = obj.password;
+            string role = obj.role;
+            sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
+            connect = new sqlCon.SqlConnect();
+            connect.conOpen();
+            dt_user_user = connect.select_query("SELECT * FROM[dbo].[user]"); // получаем данные из таблицы
+            DB_ID_Users[] ids_user = new DB_ID_Users[dt_user_user.Rows.Count - 1];
+            int new_index = 0;
+
+            for (int i = 0; i < dt_user_user.Rows.Count; i++)
+            {
+                if (Convert.ToString(dt_user_user.Rows[i][1]) != user_login)
+                {
+                    ids_user[new_index] = new DB_ID_Users
+                    {
+                        id = Convert.ToInt32(dt_user_user.Rows[i][0])
+                    };
+                    new_index += 1;
+                }
+            }
+            gridUsers.ClearValue(ItemsControl.ItemsSourceProperty);
+            connect.delete_command_userById(ids_user[index].id);
+            getHash.GetHash get = new getHash.GetHash();
+            password = get.GetHashString(password);
+            int x = connect.insert_command_user(login, password, role);
+            dt_user_user = connect.select_query("SELECT * FROM[dbo].[user]"); // получаем данные из таблицы
+            connect.conClose();
+            Users_for_tables[] users = new Users_for_tables[dt_user_user.Rows.Count - 1];
+            new_index = 0;
+            for (int i = 0; i < dt_user_user.Rows.Count; i++)
+            {
+                if (Convert.ToString(dt_user_user.Rows[i][1]) != user_login)
+                {
+                    users[new_index] = new Users_for_tables() { Login = Convert.ToString(dt_user_user.Rows[i][1]), role = Convert.ToString(dt_user_user.Rows[i][3]), password = "" };
+                    new_index += 1;
+                }
+            }
+            gridUsers.ItemsSource = users;
+            MessageBox.Show("Пользователь успешно обновлен!");
         }
 
 
