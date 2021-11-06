@@ -28,26 +28,29 @@ namespace coursework
         DataTable dt_user_user = new DataTable();
         public string user_login = "";
         public string user_role = "";
-        public MainWindow(User[] user)
+        public MainWindow(User[] user) //+ in block
         {
             InitializeComponent();
             user_login = user[0].login;
             user_role = user[0].role;
-            if (user[0].role == "guest") {
-                
-                Tab_Mom.Items.Remove(name);
-                Tab_Mom.Items.Remove(otbor_name);
-                Tab_Mom.Items.Remove(full_users);
-                gridStudents.IsReadOnly = true;
-                btn_del.Visibility = Visibility.Hidden;
-                btn_res.Visibility = Visibility.Hidden;
-            }
-            if (user[0].role == "user") {
-                Tab_Mom.Items.Remove(full_users);
-                gridStudents.IsReadOnly = true;
-                btn_del.Visibility = Visibility.Hidden;
-                btn_res.Visibility = Visibility.Hidden;
-                gridStudents1.IsReadOnly = true;
+            if (user[0].role != "admin") {
+                if (user[0].role == "user")
+                {
+                    Tab_Mom.Items.Remove(full_users);
+                    gridStudents.IsReadOnly = true;
+                    btn_del.Visibility = Visibility.Hidden;
+                    btn_res.Visibility = Visibility.Hidden;
+                    gridStudents1.IsReadOnly = true;
+                }
+                else 
+                {
+                    Tab_Mom.Items.Remove(name);
+                    Tab_Mom.Items.Remove(otbor_name);
+                    Tab_Mom.Items.Remove(full_users);
+                    gridStudents.IsReadOnly = true;
+                    btn_del.Visibility = Visibility.Hidden;
+                    btn_res.Visibility = Visibility.Hidden;
+                }
             }
             gridStudents.CanUserSortColumns = false;
             gridStudents1.CanUserSortColumns = false;
@@ -114,7 +117,7 @@ namespace coursework
             Auth.Show();
             this.Close();
         }
-        void OnClick2(object sender, RoutedEventArgs e)
+        void OnClick2(object sender, RoutedEventArgs e) //+ in block
         {
             int k;
             if (textBox1.Text == "" || Int32.TryParse(textBox1.Text, out k) == true)
@@ -219,7 +222,6 @@ namespace coursework
             Load_number3(gridStudents1, e);
             Load_number2(gridStudents, e);
         }
-
         void OnClick4(object sender, RoutedEventArgs e) // edit
         {
             var index = gridStudents.SelectedIndex;
@@ -237,7 +239,6 @@ namespace coursework
             connect.conOpen();
             dt_user = connect.select_query("SELECT * FROM[dbo].[student] AS st LEFT JOIN[dbo].[gender] AS gr ON(st.gender = gr.id) LEFT JOIN[dbo].[lear] ler ON(st.base_learn = ler.id)"); // получаем данные из таблицы
             DB_ID[] ids = new DB_ID[dt_user.Rows.Count];
-
             for (int i = 0; i < dt_user.Rows.Count; i++)
             {
                 ids[i] = new DB_ID
@@ -246,7 +247,6 @@ namespace coursework
                 };
             }
             connect.delete_command_studentById(ids[index].id);
-
             int key = 0;
             if (gender == "мужской")
             {
@@ -263,7 +263,6 @@ namespace coursework
             else {
                 key_2 = 2;
             }
-
             string[] fullName = Convert.ToString(Full_name).Split(' ');
             DateTime date1 = Convert.ToDateTime(date);
             student[0] = new Student
@@ -289,7 +288,6 @@ namespace coursework
         {
             public int id;
         }
-
         void delete_users(object sender, RoutedEventArgs e) {       //удаление пользователей 
             sqlCon.SqlConnect connect = new sqlCon.SqlConnect();
             connect.conOpen();
@@ -327,7 +325,6 @@ namespace coursework
             gridUsers.ItemsSource = users;
         } 
         void update_users(object sender, RoutedEventArgs e) {       //редактирование пользователей
-
             var index = gridUsers.SelectedIndex;
             Users_for_tables obj = gridUsers.SelectedItem as Users_for_tables;
             string login = obj.Login;
@@ -339,7 +336,6 @@ namespace coursework
             dt_user_user = connect.select_query("SELECT * FROM[dbo].[user]"); // получаем данные из таблицы
             DB_ID_Users[] ids_user = new DB_ID_Users[dt_user_user.Rows.Count - 1];
             int new_index = 0;
-
             for (int i = 0; i < dt_user_user.Rows.Count; i++)
             {
                 if (Convert.ToString(dt_user_user.Rows[i][1]) != user_login)
@@ -371,15 +367,6 @@ namespace coursework
             gridUsers.ItemsSource = users;
             MessageBox.Show("Пользователь успешно обновлен!");
         }
-
-
-
-
-
-
-
-
-
             void TextChecker1(object sender, RoutedEventArgs e)
             {
                 textBox1.Background = Brushes.LightGray; //Color.FromRgb(237, 105, 105);

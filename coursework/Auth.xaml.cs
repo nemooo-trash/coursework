@@ -117,9 +117,6 @@ namespace coursework
             }
 
             if (ErrorMessage != "") { MessageBox.Show(ErrorMessage); }
-
-
-
         }
     }
 }

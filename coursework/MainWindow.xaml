@@ -163,12 +163,6 @@
                         </DataGrid>
                     </StackPanel>
                 </TabItem>
-
-
-
-
-
-
             </dragablz:TabablzControl>
         </Grid>
     </Grid>

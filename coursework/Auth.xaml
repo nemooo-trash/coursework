@@ -40,7 +40,7 @@
                         </Button>
                     </StackPanel>
             </TabItem>
-            <TabItem Header="Регистрация">
+                <TabItem Header="Регистрация">
                     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="450" Margin="0,0,0,10"  Orientation = "Vertical">
                         <TextBlock Text="Login"/>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
@@ -59,7 +59,6 @@
                         </Button>
                     </StackPanel>
                 </TabItem>
-
             </dragablz:TabablzControl>
         </Grid>
     </Grid>
